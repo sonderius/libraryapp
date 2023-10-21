@@ -71,8 +71,8 @@ rm /etc/nginx/sites-enabled/default
 echo "Done!"
 
 info "Initialize databases for MySQL"
-mysql <<< 'CREATE DATABASE knihovna'
-mysql <<< 'CREATE DATABASE knihovna_test'
+mysql <<< 'CREATE DATABASE library'
+mysql <<< 'CREATE DATABASE library_test'
 echo "Done!"
 
 info "Install composer"
