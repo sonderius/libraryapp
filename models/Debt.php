@@ -5,9 +5,9 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "fine".
+ * This is the model class for table "debt".
  *
- * @property int $evidencialnumber
+ * @property int $evidencial_number
  * @property int $bookloan
  * @property int $amount
  * @property string $state
@@ -16,14 +16,14 @@ use Yii;
  * @property Bookloan $bookloan0
  * @property Member $borrower0
  */
-class Fine extends \yii\db\ActiveRecord
+class Debt extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'fine';
+        return 'debt';
     }
 
     /**
@@ -32,12 +32,12 @@ class Fine extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['evidencialnumber', 'bookloan', 'amount', 'state', 'borrower'], 'required'],
-            [['evidencialnumber', 'bookloan', 'amount', 'borrower'], 'integer'],
+            [['evidencial_number', 'bookloan', 'amount', 'state', 'borrower'], 'required'],
+            [['evidencial_number', 'bookloan', 'amount', 'borrower'], 'integer'],
             [['state'], 'string'],
-            [['evidencialnumber'], 'unique'],
-            [['borrower'], 'exist', 'skipOnError' => true, 'targetClass' => Member::class, 'targetAttribute' => ['borrower' => 'user number']],
-            [['bookloan'], 'exist', 'skipOnError' => true, 'targetClass' => Bookloan::class, 'targetAttribute' => ['bookloan' => 'register number']],
+            [['evidencial_number'], 'unique'],
+            [['borrower'], 'exist', 'skipOnError' => true, 'targetClass' => Member::class, 'targetAttribute' => ['borrower' => 'user_number']],
+            [['bookloan'], 'exist', 'skipOnError' => true, 'targetClass' => Bookloan::class, 'targetAttribute' => ['bookloan' => 'register_number']],
         ];
     }
 
@@ -47,7 +47,7 @@ class Fine extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'evidencialnumber' => 'Evidencialnumber',
+            'evidencial_number' => 'Evidencial Number',
             'bookloan' => 'Bookloan',
             'amount' => 'Amount',
             'state' => 'State',
@@ -62,7 +62,7 @@ class Fine extends \yii\db\ActiveRecord
      */
     public function getBookloan0()
     {
-        return $this->hasOne(Bookloan::class, ['register number' => 'bookloan']);
+        return $this->hasOne(Bookloan::class, ['register_number' => 'bookloan']);
     }
 
     /**
@@ -72,6 +72,6 @@ class Fine extends \yii\db\ActiveRecord
      */
     public function getBorrower0()
     {
-        return $this->hasOne(Member::class, ['user number' => 'borrower']);
+        return $this->hasOne(Member::class, ['user_number' => 'borrower']);
     }
 }

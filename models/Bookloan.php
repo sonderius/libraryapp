@@ -8,15 +8,15 @@ use Yii;
  * This is the model class for table "bookloan".
  *
  * @property int $book
- * @property int|null $number of extensions
+ * @property int|null $number_of_extensions
  * @property int $return date
- * @property int $register number
- * @property int $creation date
+ * @property int $register_number
+ * @property int $creation_date
  * @property int $borrower
  *
  * @property Book $book0
  * @property Member $borrower0
- * @property Fine[] $fines
+ * @property Debt[] $debts
  */
 class Bookloan extends \yii\db\ActiveRecord
 {
@@ -34,10 +34,10 @@ class Bookloan extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['book', 'return date', 'register number', 'creation date', 'borrower'], 'required'],
-            [['book', 'number of extensions', 'return date', 'register number', 'creation date', 'borrower'], 'integer'],
-            [['register number'], 'unique'],
-            [['borrower'], 'exist', 'skipOnError' => true, 'targetClass' => Member::class, 'targetAttribute' => ['borrower' => 'user number']],
+            [['book', 'return date', 'register_number', 'creation_date', 'borrower'], 'required'],
+            [['book', 'number_of_extensions', 'return date', 'register_number', 'creation_date', 'borrower'], 'integer'],
+            [['register_number'], 'unique'],
+            [['borrower'], 'exist', 'skipOnError' => true, 'targetClass' => Member::class, 'targetAttribute' => ['borrower' => 'user_number']],
             [['book'], 'exist', 'skipOnError' => true, 'targetClass' => Book::class, 'targetAttribute' => ['book' => 'id']],
         ];
     }
@@ -49,10 +49,10 @@ class Bookloan extends \yii\db\ActiveRecord
     {
         return [
             'book' => 'Book',
-            'number of extensions' => 'Number Of Extensions',
+            'number_of_extensions' => 'Number Of Extensions',
             'return date' => 'Return Date',
-            'register number' => 'Register Number',
-            'creation date' => 'Creation Date',
+            'register_number' => 'Register Number',
+            'creation_date' => 'Creation Date',
             'borrower' => 'Borrower',
         ];
     }
@@ -74,16 +74,16 @@ class Bookloan extends \yii\db\ActiveRecord
      */
     public function getBorrower0()
     {
-        return $this->hasOne(Member::class, ['user number' => 'borrower']);
+        return $this->hasOne(Member::class, ['user_number' => 'borrower']);
     }
 
     /**
-     * Gets query for [[Fines]].
+     * Gets query for [[Debts]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getFines()
+    public function getDebts()
     {
-        return $this->hasMany(Fine::class, ['bookloan' => 'register number']);
+        return $this->hasMany(Debt::class, ['bookloan' => 'register_number']);
     }
 }

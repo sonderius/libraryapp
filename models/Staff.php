@@ -11,7 +11,7 @@ use Yii;
  * @property string $position
  * @property int $contact
  * @property int $salary
- * @property int $staff number
+ * @property int $staff_number
  *
  * @property Member[] $members
  */
@@ -31,10 +31,10 @@ class Staff extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'position', 'contact', 'salary', 'staff number'], 'required'],
+            [['name', 'position', 'contact', 'salary', 'staff_number'], 'required'],
             [['name', 'position'], 'string'],
-            [['contact', 'salary', 'staff number'], 'integer'],
-            [['staff number'], 'unique'],
+            [['contact', 'salary', 'staff_number'], 'integer'],
+            [['staff_number'], 'unique'],
         ];
     }
 
@@ -48,7 +48,7 @@ class Staff extends \yii\db\ActiveRecord
             'position' => 'Position',
             'contact' => 'Contact',
             'salary' => 'Salary',
-            'staff number' => 'Staff Number',
+            'staff_number' => 'Staff Number',
         ];
     }
 
@@ -59,6 +59,6 @@ class Staff extends \yii\db\ActiveRecord
      */
     public function getMembers()
     {
-        return $this->hasMany(Member::class, ['registrated by' => 'staff number']);
+        return $this->hasMany(Member::class, ['registrated_by' => 'staff_number']);
     }
 }

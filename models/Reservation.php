@@ -9,8 +9,8 @@ use Yii;
  *
  * @property int $date
  * @property int $book
- * @property int $evidencial number
- * @property string $date expiration
+ * @property int $evidencial_number
+ * @property string $date_expiration
  * @property int $reservator
  * @property int $staff
  *
@@ -33,12 +33,12 @@ class Reservation extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['date', 'book', 'evidencial number', 'date expiration', 'reservator', 'staff'], 'required'],
-            [['date', 'book', 'evidencial number', 'reservator', 'staff'], 'integer'],
-            [['date expiration'], 'safe'],
-            [['evidencial number'], 'unique'],
+            [['date', 'book', 'evidencial_number', 'date_expiration', 'reservator', 'staff'], 'required'],
+            [['date', 'book', 'evidencial_number', 'reservator', 'staff'], 'integer'],
+            [['date_expiration'], 'safe'],
+            [['evidencial_number'], 'unique'],
             [['book'], 'exist', 'skipOnError' => true, 'targetClass' => Book::class, 'targetAttribute' => ['book' => 'id']],
-            [['reservator'], 'exist', 'skipOnError' => true, 'targetClass' => Member::class, 'targetAttribute' => ['reservator' => 'user number']],
+            [['reservator'], 'exist', 'skipOnError' => true, 'targetClass' => Member::class, 'targetAttribute' => ['reservator' => 'user_number']],
         ];
     }
 
@@ -50,8 +50,8 @@ class Reservation extends \yii\db\ActiveRecord
         return [
             'date' => 'Date',
             'book' => 'Book',
-            'evidencial number' => 'Evidencial Number',
-            'date expiration' => 'Date Expiration',
+            'evidencial_number' => 'Evidencial Number',
+            'date_expiration' => 'Date Expiration',
             'reservator' => 'Reservator',
             'staff' => 'Staff',
         ];
@@ -74,6 +74,6 @@ class Reservation extends \yii\db\ActiveRecord
      */
     public function getReservator0()
     {
-        return $this->hasOne(Member::class, ['user number' => 'reservator']);
+        return $this->hasOne(Member::class, ['user_number' => 'reservator']);
     }
 }

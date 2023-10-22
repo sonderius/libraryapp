@@ -2,16 +2,16 @@
 
 namespace app\controllers;
 
-use app\models\Book;
-use app\models\Booksearch;
+use app\models\Books;
+use app\models\Bookssearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * BookController implements the CRUD actions for Book model.
+ * BooksController implements the CRUD actions for Books model.
  */
-class BookController extends Controller
+class BooksController extends Controller
 {
     /**
      * @inheritDoc
@@ -32,13 +32,13 @@ class BookController extends Controller
     }
 
     /**
-     * Lists all Book models.
+     * Lists all Books models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new Booksearch();
+        $searchModel = new Bookssearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -48,30 +48,30 @@ class BookController extends Controller
     }
 
     /**
-     * Displays a single Book model.
-     * @param int $id ID
+     * Displays a single Books model.
+     * @param int $ISBN Isbn
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($ISBN)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModel($ISBN),
         ]);
     }
 
     /**
-     * Creates a new Book model.
+     * Creates a new Books model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Book();
+        $model = new Books();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['view', 'ISBN' => $model->ISBN]);
             }
         } else {
             $model->loadDefaultValues();
@@ -83,18 +83,18 @@ class BookController extends Controller
     }
 
     /**
-     * Updates an existing Book model.
+     * Updates an existing Books model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $id ID
+     * @param int $ISBN Isbn
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($ISBN)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($ISBN);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'ISBN' => $model->ISBN]);
         }
 
         return $this->render('update', [
@@ -103,29 +103,29 @@ class BookController extends Controller
     }
 
     /**
-     * Deletes an existing Book model.
+     * Deletes an existing Books model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id ID
+     * @param int $ISBN Isbn
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete($ISBN)
     {
-        $this->findModel($id)->delete();
+        $this->findModel($ISBN)->delete();
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the Book model based on its primary key value.
+     * Finds the Books model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id ID
-     * @return Book the loaded model
+     * @param int $ISBN Isbn
+     * @return Books the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($ISBN)
     {
-        if (($model = Book::findOne(['id' => $id])) !== null) {
+        if (($model = Books::findOne(['ISBN' => $ISBN])) !== null) {
             return $model;
         }
 

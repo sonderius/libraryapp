@@ -4,24 +4,24 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /** @var yii\web\View $this */
-/** @var app\models\Booksearch $model */
+/** @var app\models\Bookssearch $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
-<div class="book-search">
+<div class="books-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'state') ?>
+    <?= $form->field($model, 'name') ?>
 
-    <?= $form->field($model, 'id') ?>
+    <?= $form->field($model, 'author') ?>
 
-    <?= $form->field($model, 'availability') ?>
+    <?= $form->field($model, 'publishing') ?>
 
-    <?= $form->field($model, 'limitation') ?>
+    <?= $form->field($model, 'year_of_publication') ?>
 
     <?= $form->field($model, 'ISBN') ?>
 

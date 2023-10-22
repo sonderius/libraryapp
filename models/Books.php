@@ -10,7 +10,7 @@ use Yii;
  * @property string $name
  * @property string $author
  * @property string $publishing
- * @property int $year of publication
+ * @property int $year_of_publication
  * @property int $ISBN
  *
  * @property Book[] $books
@@ -31,9 +31,9 @@ class Books extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'author', 'publishing', 'year of publication', 'ISBN'], 'required'],
+            [['name', 'author', 'publishing', 'year_of_publication', 'ISBN'], 'required'],
             [['name', 'author', 'publishing'], 'string'],
-            [['year of publication', 'ISBN'], 'integer'],
+            [['year_of_publication', 'ISBN'], 'integer'],
             [['ISBN'], 'unique'],
         ];
     }
@@ -47,7 +47,7 @@ class Books extends \yii\db\ActiveRecord
             'name' => 'Name',
             'author' => 'Author',
             'publishing' => 'Publishing',
-            'year of publication' => 'Year Of Publication',
+            'year_of_publication' => 'Year Of Publication',
             'ISBN' => 'Isbn',
         ];
     }
