@@ -1,17 +1,17 @@
 <?php
 
 namespace app\controllers;
-use yii;
-use app\models\Member;
-use app\models\Membersearch;
+use Yii;
+use app\models\Reservation;
+use app\models\Reservationsearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * MemberController implements the CRUD actions for Member model.
+ * ReservationController implements the CRUD actions for Reservation model.
  */
-class MemberController extends Controller
+class ReservationController extends Controller
 {
     /**
      * @inheritDoc
@@ -32,7 +32,7 @@ class MemberController extends Controller
     }
 
     /**
-     * Lists all Member models.
+     * Lists all Reservation models.
      *
      * @return string
      */
@@ -41,7 +41,7 @@ class MemberController extends Controller
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-        $searchModel = new Membersearch();
+        $searchModel = new Reservationsearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -51,23 +51,23 @@ class MemberController extends Controller
     }
 
     /**
-     * Displays a single Member model.
-     * @param int $user_number User Number
+     * Displays a single Reservation model.
+     * @param int $evidencial_number Evidencial Number
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($user_number)
+    public function actionView($evidencial_number)
     {
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
         return $this->render('view', [
-            'model' => $this->findModel($user_number),
+            'model' => $this->findModel($evidencial_number),
         ]);
     }
 
     /**
-     * Creates a new Member model.
+     * Creates a new Reservation model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
@@ -76,14 +76,11 @@ class MemberController extends Controller
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-        if (Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-        $model = new Member();
-        
+        $model = new Reservation();
+
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'user_number' => $model->user_number]);
+                return $this->redirect(['view', 'evidencial_number' => $model->evidencial_number]);
             }
         } else {
             $model->loadDefaultValues();
@@ -95,21 +92,21 @@ class MemberController extends Controller
     }
 
     /**
-     * Updates an existing Member model.
+     * Updates an existing Reservation model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $user_number User Number
+     * @param int $evidencial_number Evidencial Number
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($user_number)
+    public function actionUpdate($evidencial_number)
     {
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-        $model = $this->findModel($user_number);
+        $model = $this->findModel($evidencial_number);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'user_number' => $model->user_number]);
+            return $this->redirect(['view', 'evidencial_number' => $model->evidencial_number]);
         }
 
         return $this->render('update', [
@@ -118,35 +115,35 @@ class MemberController extends Controller
     }
 
     /**
-     * Deletes an existing Member model.
+     * Deletes an existing Reservation model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $user_number User Number
+     * @param int $evidencial_number Evidencial Number
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($user_number)
+    public function actionDelete($evidencial_number)
     {
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-        $this->findModel($user_number)->delete();
+        $this->findModel($evidencial_number)->delete();
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the Member model based on its primary key value.
+     * Finds the Reservation model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $user_number User Number
-     * @return Member the loaded model
+     * @param int $evidencial_number Evidencial Number
+     * @return Reservation the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($user_number)
+    protected function findModel($evidencial_number)
     {
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-        if (($model = Member::findOne(['user_number' => $user_number])) !== null) {
+        if (($model = Reservation::findOne(['evidencial_number' => $evidencial_number])) !== null) {
             return $model;
         }
 

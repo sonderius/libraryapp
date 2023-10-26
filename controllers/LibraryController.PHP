@@ -1,5 +1,5 @@
 <?php
-
+//Tento model služi na vypožičavanie a rezervaciu knih prijatelnu pre knihovnika
 namespace app\controllers;
 
 use Yii;
@@ -12,7 +12,11 @@ class LibraryController extends Controller
 {
     public function actionIndex()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         // Akce pro zobrazení seznamu knih a jejich konkrétních výtisků.
+
         $books = Books::find()->all();
         $editions = Book::find()->all();
         $users = Member::find()->all();
@@ -21,8 +25,10 @@ class LibraryController extends Controller
 
     public function actionCreate()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         // Akce pro přidání nového literárního díla (Book) a jeho konkrétního výtisku (BookEdition).
-        
         $book = new Books();
         $edition = new Book();
 
@@ -38,6 +44,9 @@ class LibraryController extends Controller
 
     public function actionUpdate($bookId)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         // Akce pro úpravu literárního díla (Book) a jeho konkrétního výtisku (BookEdition).
         $book = Books::findOne($bookId);
         $edition = Book::findOne(['ISBN' => $bookId]);
@@ -58,6 +67,9 @@ class LibraryController extends Controller
 
     public function actionDelete($bookId)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         // Akce pro smazání literárního díla (Book) a všech jeho konkrétních výtisků (BookEdition).
         $book = Books::findOne($bookId);
 
@@ -77,32 +89,38 @@ class LibraryController extends Controller
     }
 
     public function actionBorrow($editionId, $userId)
-{
-    // Akce pro zobrazení formuláře na požičanie knihy.
-    $book = Book::findOne($editionId);
-    
-    if ($book === null) {
-        throw new NotFoundHttpException('Kniha nebyla nalezena.');
-    }
-
-    // Ak bol odoslaný formulár
-    if (Yii::$app->request->isPost) {
-        // Spracovanie údajov z formulára a aktualizácia atribútu availability na "požičaná"
-        $book->load(Yii::$app->request->post());
-        $book->availability = 'požičaná';
-
-        if ($book->save()) {
-            Yii::$app->session->setFlash('success', 'Kniha bola úspešne požičaná.');
-            return $this->redirect(['index']);
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
         }
-    }
+        // Akce pro zobrazení formuláře na požičanie knihy.
+        $book = Book::findOne($editionId);
+        
+        if ($book === null) {
+            throw new NotFoundHttpException('Kniha nebyla nalezena.');
+        }
 
-    // Zobrazíme formulár na požičanie knihy
-    return $this->render('borrow', ['book' => $book]);
-}
+        // Ak bol odoslaný formulár
+        if (Yii::$app->request->isPost) {
+            // Spracovanie údajov z formulára a aktualizácia atribútu availability na "požičaná"
+            $book->load(Yii::$app->request->post());
+            $book->availability = 'požičaná';
+
+            if ($book->save()) {
+                Yii::$app->session->setFlash('success', 'Kniha bola úspešne požičaná.');
+                return $this->redirect(['index']);
+            }
+        }
+
+        // Zobrazíme formulár na požičanie knihy
+        return $this->render('borrow', ['book' => $book]);
+    }
 
     public function actionReturn($editionId, $userId)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         // Načítanie existujúceho modelu z databázy na základe identifikátora
         $book = Book::findOne($editionId);
 
@@ -119,14 +137,11 @@ class LibraryController extends Controller
         } else {
             echo 'Záznam v tabuľke book s identifikátorom ' . $editionId . ' nebol nájdený.';
         }
-        
-        
-    
-
         // Tu môžete vykonať ďalšiu logiku pre vrátenie knihy, napríklad aktualizáciu záznamov o pôžičkách.
         Yii::$app->session->setFlash('success', 'Kniha bola úspešne vrátená.');
         return $this->redirect(['index']);
     }
+    // zde by mohli byt este akce pro rezervaciu knih
 
-  
+
 }

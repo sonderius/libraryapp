@@ -131,6 +131,19 @@ class SiteController extends Controller
     }
     public function actionLibrary()
     {
-        return $this->render('library');
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        else return $this->render('/library');
+    }
+    public function actionAdministration()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        else return $this->render('/administration');
     }
 }

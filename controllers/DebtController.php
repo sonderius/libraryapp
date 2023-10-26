@@ -1,7 +1,7 @@
 <?php
 
 namespace app\controllers;
-
+use Yii;
 use app\models\debt;
 use app\models\Debtssearch;
 use yii\web\Controller;
@@ -38,6 +38,9 @@ class DebtController extends Controller
      */
     public function actionIndex()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         $searchModel = new Debtssearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -55,6 +58,9 @@ class DebtController extends Controller
      */
     public function actionView($evidencial_number)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         return $this->render('view', [
             'model' => $this->findModel($evidencial_number),
         ]);
@@ -67,6 +73,9 @@ class DebtController extends Controller
      */
     public function actionCreate()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         $model = new debt();
 
         if ($this->request->isPost) {
@@ -91,6 +100,9 @@ class DebtController extends Controller
      */
     public function actionUpdate($evidencial_number)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         $model = $this->findModel($evidencial_number);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
@@ -111,6 +123,9 @@ class DebtController extends Controller
      */
     public function actionDelete($evidencial_number)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         $this->findModel($evidencial_number)->delete();
 
         return $this->redirect(['index']);
@@ -125,6 +140,9 @@ class DebtController extends Controller
      */
     protected function findModel($evidencial_number)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         if (($model = debt::findOne(['evidencial_number' => $evidencial_number])) !== null) {
             return $model;
         }

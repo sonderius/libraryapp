@@ -1,7 +1,7 @@
 <?php
 
 namespace app\controllers;
-
+use Yii;
 use app\models\Bookloan;
 use app\models\Bookloansearch;
 use yii\web\Controller;
@@ -38,6 +38,9 @@ class BookloanController extends Controller
      */
     public function actionIndex()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         $searchModel = new Bookloansearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -55,6 +58,9 @@ class BookloanController extends Controller
      */
     public function actionView($register_number)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         return $this->render('view', [
             'model' => $this->findModel($register_number),
         ]);
@@ -67,6 +73,9 @@ class BookloanController extends Controller
      */
     public function actionCreate()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         $model = new Bookloan();
 
         if ($this->request->isPost) {
@@ -91,6 +100,9 @@ class BookloanController extends Controller
      */
     public function actionUpdate($register_number)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         $model = $this->findModel($register_number);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
@@ -111,6 +123,9 @@ class BookloanController extends Controller
      */
     public function actionDelete($register_number)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         $this->findModel($register_number)->delete();
 
         return $this->redirect(['index']);
@@ -125,6 +140,9 @@ class BookloanController extends Controller
      */
     protected function findModel($register_number)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         if (($model = Bookloan::findOne(['register_number' => $register_number])) !== null) {
             return $model;
         }

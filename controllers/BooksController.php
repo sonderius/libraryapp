@@ -1,7 +1,7 @@
 <?php
 
 namespace app\controllers;
-
+use yii;
 use app\models\Books;
 use app\models\Bookssearch;
 use yii\web\Controller;
@@ -38,6 +38,9 @@ class BooksController extends Controller
      */
     public function actionIndex()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         $searchModel = new Bookssearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -55,6 +58,9 @@ class BooksController extends Controller
      */
     public function actionView($ISBN)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         return $this->render('view', [
             'model' => $this->findModel($ISBN),
         ]);
@@ -67,6 +73,9 @@ class BooksController extends Controller
      */
     public function actionCreate()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         $model = new Books();
 
         if ($this->request->isPost) {
@@ -91,6 +100,9 @@ class BooksController extends Controller
      */
     public function actionUpdate($ISBN)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         $model = $this->findModel($ISBN);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
@@ -111,6 +123,9 @@ class BooksController extends Controller
      */
     public function actionDelete($ISBN)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         $this->findModel($ISBN)->delete();
 
         return $this->redirect(['index']);
@@ -125,6 +140,9 @@ class BooksController extends Controller
      */
     protected function findModel($ISBN)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         if (($model = Books::findOne(['ISBN' => $ISBN])) !== null) {
             return $model;
         }

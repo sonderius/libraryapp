@@ -1,7 +1,7 @@
 <?php
 
 namespace app\controllers;
-
+use Yii;
 use app\models\Book;
 use app\models\Booksearch;
 use yii\web\Controller;
@@ -38,6 +38,9 @@ class BookController extends Controller
      */
     public function actionIndex()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         $searchModel = new Booksearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -45,6 +48,7 @@ class BookController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+
     }
 
     /**
@@ -55,12 +59,18 @@ class BookController extends Controller
      */
     public function actionView($id)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
     public function actionISBNView($ISBN)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         return $this->render('view', [
             'model' => $this->findModel($ISBN),
         ]);
@@ -73,6 +83,9 @@ class BookController extends Controller
      */
     public function actionCreate()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         $model = new Book();
 
         if ($this->request->isPost) {
@@ -97,6 +110,9 @@ class BookController extends Controller
      */
     public function actionUpdate($id)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
@@ -117,12 +133,18 @@ class BookController extends Controller
      */
     public function actionDelete($id)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
     public function setavailability($id)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         $model = $this->findModel($id);
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->$id]);
@@ -143,6 +165,9 @@ class BookController extends Controller
      */
     protected function findModel($id)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         if (($model = Book::findOne(['id' => $id])) !== null) {
             return $model;
         }
