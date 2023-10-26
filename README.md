@@ -91,7 +91,9 @@ return [
     'charset' => 'utf8',
 ];
 ```
-Example dump database is [here](https://github.com/sonderius/libraryapp/tree/main/example%20db)
+Example dump database is [here](https://github.com/sonderius/libraryapp/tree/main/example%20db/)
+
+
 **NOTES:**
 - Yii won't create the database for you, this has to be done manually before you can access it.
 - Check and edit the other files in the `config/` directory to customize your application as required.
