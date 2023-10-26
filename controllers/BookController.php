@@ -59,6 +59,12 @@ class BookController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
+    public function actionISBNView($ISBN)
+    {
+        return $this->render('view', [
+            'model' => $this->findModel($ISBN),
+        ]);
+    }
 
     /**
      * Creates a new Book model.
@@ -114,6 +120,18 @@ class BookController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+    public function setavailability($id)
+    {
+        $model = $this->findModel($id);
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->$id]);
+        }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
+
     }
 
     /**
