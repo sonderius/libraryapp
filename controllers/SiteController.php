@@ -129,4 +129,8 @@ class SiteController extends Controller
     {
         return $this->render('hello');
     }
+    public function actionLibrary()
+    {
+        return $this->render('library');
+    }
 }
