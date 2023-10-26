@@ -1,4 +1,4 @@
-<?php //zde se zvoli uzivatel ?>
+<?php //here you can choose user ?>
 <label for="user-select">Vyberte uživatela:</label>
 
 

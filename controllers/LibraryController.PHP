@@ -1,13 +1,14 @@
 <?php
-//Tento model služi na vypožičavanie a rezervaciu knih prijatelnu pre knihovnika
+// This model is used for borrowing and reservation of books, suitable for librarians.
 namespace app\controllers;
 
 use Yii;
 use yii\web\Controller;
-use app\models\Book; 
-use app\models\Books; 
-use app\models\Member; 
+use app\models\Book;
+use app\models\Books;
+use app\models\Member;
 use yii\web\NotFoundHttpException;
+
 class LibraryController extends Controller
 {
     public function actionIndex()
@@ -15,12 +16,12 @@ class LibraryController extends Controller
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-        // Akce pro zobrazení seznamu knih a jejich konkrétních výtisků.
+        // Action for displaying a list of books and their specific editions.
 
         $books = Books::find()->all();
         $editions = Book::find()->all();
         $users = Member::find()->all();
-        return $this->render('index', ['books' => $books, 'editions' => $editions,'users' => $users]);
+        return $this->render('index', ['books' => $books, 'editions' => $editions, 'users' => $users]);
     }
 
     public function actionCreate()
@@ -28,13 +29,13 @@ class LibraryController extends Controller
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-        // Akce pro přidání nového literárního díla (Book) a jeho konkrétního výtisku (BookEdition).
+        // Action for adding a new literary work (Book) and its specific edition (BookEdition).
         $book = new Books();
         $edition = new Book();
 
         if ($book->load(Yii::$app->request->post()) && $edition->load(Yii::$app->request->post())) {
             if ($book->save() && $edition->save()) {
-                Yii::$app->session->setFlash('success', 'Kniha byla úspěšně přidána.');
+                Yii::$app->session->setFlash('success', 'The book has been successfully added.');
                 return $this->redirect(['index']);
             }
         }
@@ -47,17 +48,17 @@ class LibraryController extends Controller
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-        // Akce pro úpravu literárního díla (Book) a jeho konkrétního výtisku (BookEdition).
+        // Action for editing a literary work (Book) and its specific edition (BookEdition).
         $book = Books::findOne($bookId);
         $edition = Book::findOne(['ISBN' => $bookId]);
 
         if ($book === null || $edition === null) {
-            throw new NotFoundHttpException('Kniha nebyla nalezena.');
+            throw new NotFoundHttpException('The book was not found.');
         }
 
         if ($book->load(Yii::$app->request->post()) && $edition->load(Yii::$app->request->post())) {
             if ($book->save() && $edition->save()) {
-                Yii::$app->session->setFlash('success', 'Kniha byla úspěšně aktualizována.');
+                Yii::$app->session->setFlash('success', 'The book has been successfully updated.');
                 return $this->redirect(['index']);
             }
         }
@@ -70,21 +71,21 @@ class LibraryController extends Controller
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-        // Akce pro smazání literárního díla (Book) a všech jeho konkrétních výtisků (BookEdition).
+        // Action for deleting a literary work (Book) and all of its specific editions (BookEdition).
         $book = Books::findOne($bookId);
 
         if ($book === null) {
-            throw new NotFoundHttpException('Kniha nebyla nalezena.');
+            throw new NotFoundHttpException('The book was not found.');
         }
 
-        // Najdeme všechny výtisky této knihy a smažeme je.
+        // Find all editions of this book and delete them.
         $editions = Book::find()->where(['book_id' => $bookId])->all();
         foreach ($editions as $edition) {
             $edition->delete();
         }
 
         $book->delete();
-        Yii::$app->session->setFlash('success', 'Kniha a všechny její výtisky byly úspěšně smazány.');
+        Yii::$app->session->setFlash('success', 'The book and all of its editions have been successfully deleted.');
         return $this->redirect(['index']);
     }
 
@@ -93,26 +94,26 @@ class LibraryController extends Controller
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-        // Akce pro zobrazení formuláře na požičanie knihy.
+        // Action for displaying a form for borrowing a book.
         $book = Book::findOne($editionId);
-        
+
         if ($book === null) {
-            throw new NotFoundHttpException('Kniha nebyla nalezena.');
+            throw new NotFoundHttpException('The book was not found.');
         }
 
-        // Ak bol odoslaný formulár
+        // If the form was submitted
         if (Yii::$app->request->isPost) {
-            // Spracovanie údajov z formulára a aktualizácia atribútu availability na "požičaná"
+            // Process the form data and update the "availability" attribute to "borrowed"
             $book->load(Yii::$app->request->post());
-            $book->availability = 'požičaná';
+            $book->availability = 'borrowed';
 
             if ($book->save()) {
-                Yii::$app->session->setFlash('success', 'Kniha bola úspešne požičaná.');
+                Yii::$app->session->setFlash('success', 'The book has been successfully borrowed.');
                 return $this->redirect(['index']);
             }
         }
 
-        // Zobrazíme formulár na požičanie knihy
+        // Display the form for borrowing the book
         return $this->render('borrow', ['book' => $book]);
     }
 
@@ -121,27 +122,25 @@ class LibraryController extends Controller
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-        // Načítanie existujúceho modelu z databázy na základe identifikátora
+        // Load an existing model from the database based on the identifier
         $book = Book::findOne($editionId);
 
         if ($book !== null) {
-            // Aktualizácia atribútu availability na "k dispozícii"
-            $book->availability = 'k dispozícii';
+            // Update the "availability" attribute to "available"
+            $book->availability = 'available';
 
-            // Uloženie zmien do databázy
+            // Save the changes to the database
             if ($book->save()) {
-                echo 'Atribút availability bol aktualizovaný na "k dispozícii".';
+                echo 'The "availability" attribute has been updated to "available."';
             } else {
-                echo 'Chyba pri ukladaní zmien do databázy.';
+                echo 'Error when saving changes to the database.';
             }
         } else {
-            echo 'Záznam v tabuľke book s identifikátorom ' . $editionId . ' nebol nájdený.';
+            echo 'The record in the "book" table with an identifier of ' . $editionId . ' was not found.';
         }
-        // Tu môžete vykonať ďalšiu logiku pre vrátenie knihy, napríklad aktualizáciu záznamov o pôžičkách.
-        Yii::$app->session->setFlash('success', 'Kniha bola úspešne vrátená.');
+        // Here, you can perform additional logic for returning the book, such as updating lending records.
+        Yii::$app->session->setFlash('success', 'The book has been successfully returned.');
         return $this->redirect(['index']);
     }
-    // zde by mohli byt este akce pro rezervaciu knih
-
-
+    // Additional actions for book reservation could be added here.
 }

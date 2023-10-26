@@ -1,5 +1,5 @@
 <?php
-//služi na rozcestnik pre volbu administracie zaznamov v db
+//serves as a menu for selecting the administration of records in the database
 namespace app\controllers;
 use Yii;
 

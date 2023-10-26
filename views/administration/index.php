@@ -2,9 +2,9 @@
 /** @var yii\web\View $this */
 use yii\widgets\Menu;
 $menuItems = [
-    ['label' => 'Domov', 'url' => ['site/index']],
-    ['label' => 'Knihy', 'url' => ['library/index']],
-    // Pridajte ďalšie položky menu podľa potreby
+    ['label' => 'Home', 'url' => ['site/index']],
+    ['label' => 'Books', 'url' => ['library/index']],
+    // Add more menu items as needed
 ];
 ?>
 <h1>administration/index</h1>
@@ -12,21 +12,19 @@ $menuItems = [
 <p>
 <?php
 $menuItems = [
-    ['label' => 'Sprava diel', 'url' => ['/books']],
-    ['label' => 'Sprava vytisku diel', 'url' => ['/book']],
-    ['label' => 'Sprava clenov', 'url' => ['/member']],
-    ['label' => 'Sprava zamestnancov', 'url' => ['/staff']],
-    ['label' => 'Sprava pokut', 'url' => ['/debt']],
-    ['label' => 'Sprava rezervaci', 'url' => ['/reservation']],
-    ['label' => 'Sprava pujcek', 'url' => ['/bookloan']],
-    // Pridajte ďalšie položky menu podľa potreby
+    ['label' => 'Manage Works', 'url' => ['/books']],
+    ['label' => 'Manage Work Editions', 'url' => ['/book']],
+    ['label' => 'Manage Members', 'url' => ['/member']],
+    ['label' => 'Manage Staff', 'url' => ['/staff']],
+    ['label' => 'Manage Penalties', 'url' => ['/debt']],
+    ['label' => 'Manage Reservations', 'url' => ['/reservation']],
+    ['label' => 'Manage Loans', 'url' => ['/bookloan']],
+    // Add more menu items as needed
 ];
 
 echo Menu::widget([
     'items' => $menuItems,
-    'options' => ['class' => 'navbar-nav'], // Voliteľné triedy CSS
+    'options' => ['class' => 'navbar-nav'], // Optional CSS classes
 ]);
-
-
 ?>
 </p>

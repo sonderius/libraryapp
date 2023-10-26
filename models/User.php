@@ -2,6 +2,7 @@
 
 namespace app\models;
 use app\models\Staff;
+
 class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
 {
     public $id;
@@ -10,18 +11,17 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     public $authKey;
     public $accessToken;
     public static $users;
-    
-    
+
     public static function initialize()
     {
-        // Načítajte údaje o používateľoch z tabuľky Staff
+        // Load user data from the Staff table
         
-        $users=[];
+        $users = [];
         $staffData = Staff::find()->all();
 
-        // Nahrádzať existujúce údaje v statickej premennej $users novými údajmi z tabuľky Staff
+        // Replace existing data in the static variable $users with new data from the Staff table
         foreach ($staffData as $staff) {
-            self::$users[$staff->id] =[
+            self::$users[$staff->id] = [
                 'id' => $staff->id,
                 'username' => $staff->username,
                 'password' => $staff->password,
@@ -29,17 +29,8 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
                 'accessToken' => $staff->accessToken,
             ];
         }
-    
-        
-   
-   
     }
-
-  
-
-    /**
-     * {@inheritdoc}
-     */
+ 
     public static function findIdentity($id)
     {
         self::initialize();
@@ -62,14 +53,13 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     }
 
     /**
-     * Finds user by username
+     * Finds a user by username
      *
      * @param string $username
      * @return static|null
      */
     public static function findByUsername($username)
     {
-
         self::initialize();
         foreach (self::$users as $user) {
             if (strcasecmp($user['username'], $username) === 0) {
@@ -105,18 +95,18 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     }
 
     /**
-     * Validates password
+     * Validates the password
      *
      * @param string $password password to validate
-     * @return bool if password provided is valid for current user
+     * @return bool if the provided password is valid for the current user
      */
     public function validatePassword($password)
     {
         return $this->password === $password;
     }
+
     public function users()
     {
         return $this->users;
     }
-    
 }

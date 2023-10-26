@@ -1,1 +1,0 @@
-tady sa to zobrazi

@@ -3,17 +3,17 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 $this->title = $book->title;
-$this->params['breadcrumbs'][] = ['label' => 'Seznam knih a výtisků', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'List of books and editions', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?= Html::encode($this->title) ?></h1>
 
 <p>
-    <?= Html::a('Upravit', ['update', 'bookId' => $book->id], ['class' => 'btn btn-primary']) ?>
-    <?= Html::a('Smazat', ['delete', 'bookId' => $book->id], [
+    <?= Html::a('Edit', ['update', 'bookId' => $book->id], ['class' => 'btn btn-primary']) ?>
+    <?= Html::a('Delete', ['delete', 'bookId' => $book->id], [
         'class' => 'btn btn-danger',
         'data' => [
-            'confirm' => 'Opravdu chcete smazat tuto knihu a všechny její výtisky?',
+            'confirm' => 'Do you really want to delete this book and all of its editions?',
             'method' => 'post',
         ],
     ]) ?>
@@ -24,19 +24,19 @@ $this->params['breadcrumbs'][] = $this->title;
     'attributes' => [
         'title',
         'isbn',
-        // Další atributy literárního díla
+        // Other attributes of the literary work
     ],
 ]) ?>
 
 <?php if ($edition): ?>
-    <h2>Informace o výtisku</h2>
+    <h2>Edition Information</h2>
     <?= DetailView::widget([
         'model' => $edition,
         'attributes' => [
             'name',
             'borrower_name',
             'borrow_date',
-            // Další atributy výtisku
+            // Other attributes of the edition
         ],
     ]) ?>
 <?php endif; ?>
