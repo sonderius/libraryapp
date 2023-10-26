@@ -91,7 +91,7 @@ return [
     'charset' => 'utf8',
 ];
 ```
-Example dump database is [here](https://github.com/sonderius/libraryapp/tree/main/example%20db/)
+Example dump database is [here](https://github.com/sonderius/libraryapp/blob/main/example%20db/library.sql)
 
 
 **NOTES:**
